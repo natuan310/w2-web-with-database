@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3">
+            <!-- CATEGORY SECTION -->
+            <ul class="list-group list-group-flush pt-3 pb-3 pl-3 pr-3 mt-3" style="background-color:#F7F0F5;">
+                <h3 style="text-align:center;">DANH MỤC SẢN PHẨM</h3>
+                {% for cat in categories %}
+                {% if cat.last == "adasda" %}
+                <a href="#" method="POST" class="list-group-item list-group-item-action"
+                    style="background-color:#F7F0F5;">LAST{{ cat.name }}</a>
+                {% else %}
+                <a href="{{ url_for('category', id=cat.id) }}" method="POST"
+                    class="list-group-item list-group-item-action" style="background-color:#F7F0F5;">{{ cat.name }}</a>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Items LIST -->
+        <div class="col-9">
+            <div class="container-fluid pt-3 pb-3 pl-4 pr-2 mt-3 align-items-center" style="background-color:#F7F0F5;">
+                <h1 style="text-align:center;">TEEKI</h1>
+                <div class="row  d-flex align-items-center">
+                    {% for item in items %}
+
+                    <div class="card mb-2 mr-3 ml-3" style="width: 18rem;max-height:488px;">
+                        <div class="card-img-top" style="max-height:286px;overflow:hidden; ">
+                        <a href="{{ item.url }}">
+                            <img src="{{ item.img_url }}" class="card-img-top" alt="..."></a></div>
+                        <div class="card-body">
+                            <a href="#" style="text-decoration: none; color: black">
+                                <p>{{ item.name }}</p>
+                            </a>
+                            {% if item.sale_tag %}
+                            <p>{{ item.final_price }} ({{ item.sale_tag }})</p>
+                            <p style="text-decoration: line-through;"><small>{{ item.regular_price }}</small>
+                            </p>
+                            {% else %}
+                            <p>{{ item.regular_price }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% endfor %}
+                </div>
+                <!-- Pagination -->
+                <div class="row justify-content-center mt-3">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+
+                            {% if page < 2 %}
+                            <li class="page-item" style="visibility: hidden;">
+                                <a class="page-link" href="{{url_for('index', page=page-1)}}" tabindex="-1"
+                                    style="text-decoration: none; color: #5C5552;" aria-disabled="true">Previous</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="{{url_for('index', page=page)}}"
+                                    style="text-decoration: none; color: #5C5552">{{ page+1 }}</a></li>
+                            <li class="page-item"><a class="page-link" href="{{url_for('index', page=page)}}"
+                                    style="text-decoration: none; background-color: #5C5552; color:bisque;">{{ page+2 }}</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="{{url_for('index', page=page+1)}}"
+                                    style="text-decoration: none; color: #5C5552">{{ page+3 }}</a></li>
+                            {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{url_for('index', page=page-1)}}" tabindex="-1"
+                                    style="text-decoration: none; color: #5C5552;" aria-disabled="false">Previous</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="{{url_for('index', page=page)}}"
+                                    style="text-decoration: none; color: #5C5552">{{ page - 1 }}</a></li>
+                            <li class="page-item"><a class="page-link" href="{{url_for('index', page=page)}}"
+                                    style="text-decoration: none; background-color: #5C5552; color:bisque;">{{ page }}</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="{{url_for('index', page=page+1)}}"
+                                    style="text-decoration: none; color: #5C5552">{{ page+2 }}</a></li>
+                            {% endif%}
+
+                            <li class="page-item">
+                                <a class="page-link" href="{{url_for('index', page=page+1)}}"
+                                    style="text-decoration: none; color: #5C5552">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

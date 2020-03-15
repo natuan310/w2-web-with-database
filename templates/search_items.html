@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3">
+            <!-- CATEGORY SECTION -->
+            <ul class="list-group list-group-flush pt-3 pb-3 pl-3 pr-3 mt-3" style="background-color:#F7F0F5;">
+                <h3 style="text-align:center;">Top Category</h3>
+                {% for cat in categories %}
+                <a href="{{ url_for('category', id=cat.id) }}" class="list-group-item list-group-item-action"
+                    style="background-color:#F7F0F5;">{{ cat.name }}</a>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- BOOKS LIST -->
+        <div class="col-9">
+            <div class="container-fluid pt-3 pb-3 pl-4 pr-2 mt-3 align-items-center" style="background-color:#F7F0F5;">
+                {% if cat_name %}
+                <h1 style="text-align:center;">{{ cat_name }}</h1>
+                {% endif %}
+                {% if keyword %}
+                <h1 style="text-align:center;">Kết quả tìm kiếm cho "{{ keyword }}"</h1>
+                {% endif %}
+                <div class="row  d-flex align-items-center">
+                    {% for item in items %}
+
+                    <div class="card mb-2 mr-3 ml-3" style="width: 18rem;max-height:488px;">
+                        <div class="card-img-top" style="max-height:286px;overflow:hidden; ">
+                        <a href="{{ item.url }}">
+                            <img src="{{ item.img_url }}" class="card-img-top" alt="..."></a></div>
+                        <div class="card-body">
+                            <a href="#" style="text-decoration: none; color: black">
+                                <p>{{ item.name }}</p>
+                            </a>
+                            {% if item.sale_tag %}
+                            <p>{{ item.final_price }} ({{ item.sale_tag }})</p>
+                            <p style="text-decoration: line-through;"><small>{{ item.regular_price }}</small>
+                            </p>
+                            {% else %}
+                            <p>{{ item.regular_price }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% endfor %}
+                </div>
+                <!-- Pagination -->
+                <div class="row justify-content-center mt-3">
+                    <nav aria-label="Page navigation example">
+
+
+                        {% if page < 3 %}
+                        <ul class="pagination justify-content-center" style="visibility: visible;">
+                            <li class="page-item"><a class="page-link"
+                                    href="{{url_for('category', id=cat_id, page=page)}}"
+                                    style="text-decoration: none; background-color: #5C5552; color:bisque;">{{ page }}</a></li>
+                            <li class="page-item"><a class="page-link"
+                                    href="{{url_for('category', id=cat_id, page=page+1)}}"
+                                    style="text-decoration: none; color: #5C5552;">{{ page+1 }}</a></li>
+                            <li class="page-item"><a class="page-link"
+                                    href="{{url_for('category', id=cat_id, page=page+2)}}"
+                                    style="text-decoration: none; color: #5C5552;">{{ page+2 }}</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="{{url_for('category', id=cat_id, page=page+1)}}"
+                                    style="text-decoration: none; color: #5C5552;">Next</a>
+                            </li>
+                        </ul>
+                        <ul class="pagination justify-content-center" style="visibility: hidden;">
+                            <li class="page-item">
+                                <a class="page-link" href="{{url_for('category', id=cat_id, page=page-1)}}"
+                                    tabindex="-1" style="text-decoration: none; color: #5C5552;">Previous</a></li>
+                            <li class="page-item"><a class="page-link"
+                                    href="{{url_for('category', id=cat_id, page=page-1)}}"
+                                    style="text-decoration: none; color: #5C5552;">{{ page-1 }}</a></li>
+                            <li class="page-item"><a class="page-link"
+                                    href="{{url_for('category', id=cat_id, page=page)}}"
+                                    style="text-decoration: none; color: #5C5552;">{{ page }}</a></li>
+                            <li class="page-item"><a class="page-link"
+                                    href="{{url_for('category', id=cat_id, page=page+1)}}"
+                                    style="text-decoration: none; color: #5C5552;">{{ page+1 }}</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="{{url_for('category', id=cat_id, page=page+1)}}"
+                                    style="text-decoration: none; color: #5C5552;">Next</a>
+                            </li>
+                        </ul>
+                        {% else %}
+                        <ul class="pagination justify-content-center" style="visibility: hidden;">
+                            <li class="page-item"><a class="page-link"
+                                    href="{{url_for('category', id=cat_id, page=page)}}"
+                                    style="text-decoration: none; color: #5C5552">{{ page }}</a></li>
+                            <li class="page-item"><a class="page-link"
+                                    href="{{url_for('category', id=cat_id, page=page+1)}}"
+                                    style="text-decoration: none; color: #5C5552">{{ page+1 }}</a></li>
+                            <li class="page-item"><a class="page-link"
+                                    href="{{url_for('category', id=cat_id, page=page+2)}}"
+                                    style="text-decoration: none; color: #5C5552">{{ page+2 }}</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="{{url_for('category', id=cat_id, page=page+1)}}"
+                                    style="text-decoration: none; color: #5C5552">Next</a>
+                            </li>
+                        </ul>
+                        <ul class="pagination justify-content-center" style="visibility: visible;">
+                            <li class="page-item">
+                                <a class="page-link" href="{{url_for('category', id=cat_id, page=page-1)}}"
+                                    tabindex="-1" style="text-decoration: none; color: #5C5552;">Previous</a></li>
+                            <li class="page-item"><a class="page-link"
+                                    href="{{url_for('category', id=cat_id, page=page-1)}}"
+                                    style="text-decoration: none; color: #5C5552;">{{ page-1 }}</a></li>
+                            <li class="page-item"><a class="page-link"
+                                    href="{{url_for('category', id=cat_id, page=page)}}"
+                                    style="text-decoration: none; background-color: #5C5552; color:bisque;">{{ page }}</a></li>
+                            <li class="page-item"><a class="page-link"
+                                    href="{{url_for('category', id=cat_id, page=page+1)}}"
+                                    style="text-decoration: none; color: #5C5552;">{{ page+1 }}</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="{{url_for('category', id=cat_id, page=page+1)}}"
+                                    style="text-decoration: none; color: #5C5552;">Next</a>
+                            </li>
+                        </ul>
+                        {% endif%}
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
